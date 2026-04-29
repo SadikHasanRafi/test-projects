@@ -1,28 +1,44 @@
 {
   "name": "test-projects",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "dev": "node --loader ts-node/esm src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "echo \"No tests specified\""
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SadikHasanRafi/test-projects.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SadikHasanRafi/test-projects/issues"
+  },
+  "homepage": "https://github.com/SadikHasanRafi/test-projects#readme",
+  "description": "",
   "dependencies": {
+    "@prisma/client": "^6.11.1",
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.6.0",
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
-    "next": "16.2.4",
-    "next-auth": "5.0.0-beta.31",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.20.0",
+    "prisma": "^6.11.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.4",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^6.0.3"
   }
 }
