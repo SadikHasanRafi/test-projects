@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "./auth";
 import path from "path";
+import { redirect } from "next/navigation";
 
 
 const protectedRoutes=[
@@ -16,10 +17,14 @@ export default  async function middleware (request:NextRequest) {
     const isProtected = protectedRoutes.some((route) => pathname.startsWith(route))
 
     
-    if(isProtected && !session) {
-        return NextResponse.redirect(new URL("/api/auth/signin", request.url))
-    }
-
+// Redirect unauthenticated users to home page with callbackUrl
+if (isProtected && !session) {
+  const loginUrl = new URL("/", request.url);
+  loginUrl.searchParams.set("callbackUrl", request.nextUrl.pathname);
+  return NextResponse.redirect(loginUrl);
+}
+    
+    
     return NextResponse.next()
 
 
