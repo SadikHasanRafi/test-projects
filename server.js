@@ -76,12 +76,18 @@ const User = mongoose.model(
 
 // Signup
 app.post("/signup", async (req, res) => {
+  console.log("\n=================== 📝 SIGNUP REQUEST ===================");
+  console.log(`[${new Date().toISOString()}] Incoming registration...`);
+  console.log("Payload:", { name: req.body.name, email: req.body.email, password: "[HIDDEN]" });
+
   try {
     const { name, email, password } = req.body;
 
     const exists = await User.findOne({ email });
 
     if (exists) {
+      console.warn(`⚠️  Signup Failed: Email [${email}] already exists.`);
+      console.log("=========================================================\n");
       return res.status(400).json({
         message: "Email already exists",
       });
@@ -95,10 +101,15 @@ app.post("/signup", async (req, res) => {
       password: hashedPassword,
     });
 
+    console.log(`✅ Signup Successful for: [${email}]`);
+    console.log("=========================================================\n");
+    
     res.json({
       message: "Signup Successful",
     });
   } catch (err) {
+    console.error("❌ Signup Error:", err.message);
+    console.log("=========================================================\n");
     res.status(500).json({
       message: err.message,
     });
@@ -107,12 +118,18 @@ app.post("/signup", async (req, res) => {
 
 // Login
 app.post("/login", async (req, res) => {
+  console.log("\n=================== 🔑 LOGIN REQUEST ===================");
+  console.log(`[${new Date().toISOString()}] Attempting authentication...`);
+  console.log("Payload:", { email: req.body.email, password: "[HIDDEN]" });
+
   try {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
 
     if (!user) {
+      console.warn(`⚠️  Login Failed: No account found for [${email}]`);
+      console.log("=========================================================\n");
       return res.status(400).json({
         message: "Invalid Credentials",
       });
@@ -121,6 +138,8 @@ app.post("/login", async (req, res) => {
     const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
+      console.warn(`⚠️  Login Failed: Incorrect password for [${email}]`);
+      console.log("=========================================================\n");
       return res.status(400).json({
         message: "Invalid Credentials",
       });
@@ -142,10 +161,15 @@ app.post("/login", async (req, res) => {
       secure: false, // true if using HTTPS
     });
 
+    console.log(`✅ Login Successful! Session cookie issued for User ID: [${user._id}]`);
+    console.log("=========================================================\n");
+
     res.json({
       message: "Login Successful",
     });
   } catch (err) {
+    console.error("❌ Login Error:", err.message);
+    console.log("=========================================================\n");
     res.status(500).json({
       message: err.message,
     });
@@ -154,28 +178,37 @@ app.post("/login", async (req, res) => {
 
 // Get Current User
 app.get("/me", async (req, res) => {
+  console.log("\n=================== 👤 GET CURRENT USER ===================");
+  console.log(`[${new Date().toISOString()}] Validating session cookie...`);
+
   try {
     const token = req.cookies.token;
 
     if (!token) {
+      console.warn("⚠️  Auth Failed: No token found in cookies.");
+      console.log("=========================================================\n");
       return res.status(401).json({
         message: "Unauthorized",
       });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(`🔍 Token verified successfully. User ID from token: [${decoded.id}]`);
 
     const user = await User.findById(decoded.id).select("-password");
 
+    console.log(`✅ Profile retrieved successfully for: [${user.email}]`);
+    console.log("=========================================================\n");
+
     res.json(user);
-  } catch {
+  } catch (err) {
+    console.error("❌ Session Verification Error: Invalid or expired token.");
+    console.log("=========================================================\n");
     res.status(401).json({
       message: "Invalid Token",
     });
   }
 });
-
-
 
 
 
