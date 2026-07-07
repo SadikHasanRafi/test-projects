@@ -28,7 +28,7 @@ mongoose
     console.clear();
 
     console.log("╔══════════════════════════════════════════════╗");
-    console.log("║         🚀 Simple Auth API Started          ║");
+    console.log("║         🚀 Simple Auth API Started           ║");
     console.log("╚══════════════════════════════════════════════╝");
     console.log(`🌐 Server   : http://localhost:${process.env.PORT}`);
     console.log("🗄️  Database : ✅ MongoDB Connected");
@@ -43,8 +43,9 @@ mongoose
     console.clear();
 
     console.log("╔══════════════════════════════════════════════╗");
-    console.log("║          ❌ Failed to Start Server          ║");
+    console.log("║          ❌ Failed to Start Server           ║");
     console.log("╚══════════════════════════════════════════════╝");
+    console.log(`🌐 Server   : http://localhost:${process.env.PORT}`);
     console.log("🗄️  Database : ❌ MongoDB Connection Failed");
     console.error("📄 Error:", err.message);
     console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
