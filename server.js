@@ -16,7 +16,7 @@ const mongoURI = process.env.MONGO_URI || "mongodb+srv://codeerid13255_db_user:o
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
@@ -64,6 +64,11 @@ const User = mongoose.model(
         unique: true,
       },
       password: String,
+      role: {
+        type: String,
+        enum: ["user", "admin"],
+        default: "user"
+      }
     },
     {
       timestamps: true,
@@ -78,10 +83,10 @@ const User = mongoose.model(
 app.post("/signup", async (req, res) => {
   console.log("\n=================== 📝 SIGNUP REQUEST ===================");
   console.log(`[${new Date().toISOString()}] Incoming registration...`);
-  console.log("Payload:", { name: req.body.name, email: req.body.email, password: "[HIDDEN]" });
+  console.log("Payload:", { name: req.body.name, email: req.body.email, role: req.body.role, password: "[HIDDEN]" });
 
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     const exists = await User.findOne({ email });
 
@@ -99,9 +104,10 @@ app.post("/signup", async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role: role || "user",
     });
 
-    console.log(`✅ Signup Successful for: [${email}]`);
+    console.log(`✅ Signup Successful for: [${email}] with role [${role || "user"}]`);
     console.log("=========================================================\n");
     
     res.json({
