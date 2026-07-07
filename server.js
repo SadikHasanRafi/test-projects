@@ -12,6 +12,8 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+const mongoURI = process.env.MONGO_URI || "mongodb+srv://codeerid13255_db_user:odfhwvEgX0SAj1xY@cluster0.mpghx16.mongodb.net/?appName=Cluster0";
+
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -21,7 +23,7 @@ app.use(
 
 // MongoDB
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(mongoURI)
   .then(() => {
     console.clear();
 
