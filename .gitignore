@@ -1,6 +1,18 @@
+# Node
 node_modules
 dist
+# Python
+__pycache__
+.venv
+# PHP / Laravel
+vendor
+# .NET
+bin
+obj
+# Databases and secrets (created when you run the apps)
+*.sqlite
+*.sqlite3
+*.db
 .env
-.env*.local
 *.log
 *.tsbuildinfo

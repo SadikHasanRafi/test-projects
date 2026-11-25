@@ -1,79 +1,65 @@
-# Learn Vue and React, side by side
+# Backend frameworks for Express developers
 
-Two apps with the **same 14 lessons**, so you can compare the syntax line by line.
+The **same small Books API**, built 7 times. Start with Express, which you already know, then read any other app next to it.
 
-| App | Stack | URL |
-| --- | --- | --- |
-| [vue-app/](vue-app/) | Vue 3 (`<script setup>`) · Vue Router · Pinia · Tailwind 4 · Vite · TypeScript | http://localhost:5173 |
-| [react-app/](react-app/) | React 19 (hooks) · React Router · Zustand · Tailwind 4 · Vite · TypeScript | http://localhost:5174 |
+| Folder | Framework | Language | Port | Start command |
+| --- | --- | --- | --- | --- |
+| [express-app](express-app/) | Express 5 (reference) | JavaScript | 4000 | `pnpm install && pnpm dev` |
+| [fastify-app](fastify-app/) | Fastify 5 | JavaScript | 4001 | `pnpm install && pnpm dev` |
+| [nestjs-app](nestjs-app/) | NestJS 12 | TypeScript | 4002 | `pnpm install && pnpm start:dev` |
+| [fastapi-app](fastapi-app/) | FastAPI | Python | 4003 | `uv sync && uv run fastapi dev app/main.py --port 4003` |
+| [django-app](django-app/) | Django 6 + DRF | Python | 4004 | `uv sync && uv run python manage.py migrate && uv run python manage.py runserver 4004` |
+| [laravel-app](laravel-app/) | Laravel 13 | PHP | 4005 | `composer run setup && composer run dev` |
+| [dotnet-app](dotnet-app/) | ASP.NET Core 10 | C# | 4006 | `dotnet run` |
 
-## Run
+You need: Node 22+ and pnpm · Python 3.12+ and [uv](https://docs.astral.sh/uv/) · PHP 8.3+ and Composer ([php.new](https://php.new)) · [.NET 10 SDK](https://dotnet.microsoft.com/download).
 
-Open two terminals.
+## The API (identical in every app)
 
-```bash
-# terminal 1
-cd vue-app
-pnpm install
-pnpm dev
-```
+| Method | Path | Auth | Result |
+| --- | --- | --- | --- |
+| GET | `/` | | `{ "message": "Hello from <framework>" }` |
+| GET | `/books?author=martin` | | list, optional filter |
+| GET | `/books/:id` | | one book, or 404 |
+| POST | `/books` | ✔ | 201 + the new book |
+| PUT | `/books/:id` | ✔ | the updated book |
+| DELETE | `/books/:id` | ✔ | 204 |
+| any | unknown path | | 404 JSON |
 
-```bash
-# terminal 2
-cd react-app
-pnpm install
-pnpm dev
-```
-
-`pnpm build` in either folder checks the types and makes a production build. The API lesson needs internet.
+- **Book:** `{ id, title, author, year }`. `title` and `author` are required, 1–100 characters. `year` is optional, an integer from 0 to 2100.
+- **Auth:** send the header `Authorization: Bearer secret123`. Change the token with the `API_TOKEN` env var.
+- **Database:** SQLite, created on first run with 2 sample books.
+- **Every app logs requests** like `GET /books 200 3ms`.
 
 ## How to study
 
-1. Open both apps in the browser, on the same lesson.
-2. Open the two files from the table below in a split editor. The numbers `[1]`, `[2]` match between them.
-3. Read that section in [COMPARISON.md](COMPARISON.md).
-4. Change something, save, and watch the screen update.
-5. Try the exercise.
+1. Run [express-app](express-app/) and read its README. It's the baseline.
+2. Pick another framework and open its README. Each concept is shown as **Express → that framework**.
+3. Open the matching files side by side. Every README uses the same 10 numbered concepts:
 
-| # | Topic | Vue file | React file |
-| --- | --- | --- | --- |
-| 1 | Template / JSX | [TemplatePage.vue](vue-app/src/pages/TemplatePage.vue) | [TemplatePage.tsx](react-app/src/pages/TemplatePage.tsx) |
-| 2 | State & events | [StatePage.vue](vue-app/src/pages/StatePage.vue) | [StatePage.tsx](react-app/src/pages/StatePage.tsx) |
-| 3 | Conditional rendering | [ConditionalPage.vue](vue-app/src/pages/ConditionalPage.vue) | [ConditionalPage.tsx](react-app/src/pages/ConditionalPage.tsx) |
-| 4 | Lists | [ListPage.vue](vue-app/src/pages/ListPage.vue) | [ListPage.tsx](react-app/src/pages/ListPage.tsx) |
-| 5 | Forms | [FormPage.vue](vue-app/src/pages/FormPage.vue) | [FormPage.tsx](react-app/src/pages/FormPage.tsx) |
-| 6 | Computed / derived | [ComputedPage.vue](vue-app/src/pages/ComputedPage.vue) | [ComputedPage.tsx](react-app/src/pages/ComputedPage.tsx) |
-| 7 | Watch, effects, lifecycle | [EffectPage.vue](vue-app/src/pages/EffectPage.vue) | [EffectPage.tsx](react-app/src/pages/EffectPage.tsx) |
-| 8 | Components | [ComponentsPage.vue](vue-app/src/pages/ComponentsPage.vue) | [ComponentsPage.tsx](react-app/src/pages/ComponentsPage.tsx) |
-| 9 | DOM refs | [RefPage.vue](vue-app/src/pages/RefPage.vue) | [RefPage.tsx](react-app/src/pages/RefPage.tsx) |
-| 10 | Composables / hooks | [ComposablePage.vue](vue-app/src/pages/ComposablePage.vue) | [ComposablePage.tsx](react-app/src/pages/ComposablePage.tsx) |
-| 11 | Shared state | [StorePage.vue](vue-app/src/pages/StorePage.vue) | [StorePage.tsx](react-app/src/pages/StorePage.tsx) |
-| 12 | API calls | [ApiPage.vue](vue-app/src/pages/ApiPage.vue) | [ApiPage.tsx](react-app/src/pages/ApiPage.tsx) |
-| 13 | Routing | [router.ts](vue-app/src/router.ts) | [App.tsx](react-app/src/App.tsx) |
-| 14 | Todo mini app | [TodoPage.vue](vue-app/src/pages/TodoPage.vue) | [TodoPage.tsx](react-app/src/pages/TodoPage.tsx) |
+   | Beginner | Mid-level |
+   | --- | --- |
+   | 1. Create and start the app | 6. Auth |
+   | 2. Routes | 7. Errors and 404 |
+   | 3. URL params and query | 8. Database, ORM and migrations |
+   | 4. Body validation | 9. Config and env |
+   | 5. Middleware | 10. Structure and dependency injection |
 
-## Folder layout
+4. Use [COMPARISON.md](COMPARISON.md) as a one-page cheat sheet across all 7.
+5. Send requests with [api.http](api.http) (VS Code "REST Client" extension), or run the test script:
 
-```
-vue-app/src                     react-app/src
-├── main.ts        start        ├── main.tsx       start
-├── App.vue        layout       ├── App.tsx        layout + routes
-├── router.ts      routes       │
-├── pages/         lessons      ├── pages/         lessons
-├── components/    reusable     ├── components/    reusable
-├── composables/   useXxx       ├── hooks/         useXxx
-└── stores/        Pinia        └── stores/        Zustand
-```
+   ```bash
+   node test-api.mjs 4003     # checks every endpoint of the app on port 4003
+   ```
+
+A suggested order, from most to least like Express: **Fastify → NestJS → FastAPI → Django → Laravel → ASP.NET Core**.
 
 ## Exercises
 
-Do each one in **both** apps.
+Do each one in Express first, then in the framework you're learning.
 
-1. Counter: stop it from going below 0, and disable the `-1` button at 0.
-2. Conditional: show "Good morning" or "Good evening" based on the current hour.
-3. List: add an input and button that add a new product.
-4. Form: add an email field that must contain `@`.
-5. Computed: show the total price of the products that are in stock.
-6. API: load `/users` from the fake API and show the names.
-7. Routing: add an `/about` page with a link in the sidebar.
-8. Todo: let the user edit a todo's text.
+1. Add `GET /books/count` that returns `{ "count": 2 }`.
+2. Add a `pages` field (optional, positive integer) to the model, validation and database.
+3. Add pagination: `GET /books?page=2&limit=10`.
+4. Return 409 if a book with the same title already exists.
+5. Move the "Book not found" logic into a shared helper or exception.

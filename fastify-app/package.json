@@ -1,0 +1,13 @@
+{
+  "name": "fastify-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --env-file-if-exists=.env src/server.js",
+    "start": "node --env-file-if-exists=.env src/server.js"
+  },
+  "dependencies": {
+    "fastify": "^5.12.0",
+    "fastify-plugin": "^5.0.0"
+  }
+}

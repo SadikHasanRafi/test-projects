@@ -1,0 +1,59 @@
+# Requests for any of the 7 apps.
+# VS Code: install the "REST Client" extension, then click "Send Request" above each one.
+# Change the port to switch app:
+# 4000 Express · 4001 Fastify · 4002 NestJS · 4003 FastAPI · 4004 Django · 4005 Laravel · 4006 ASP.NET Core
+
+@base = http://localhost:4000
+@token = secret123
+
+### Hello
+GET {{base}}/
+
+### List books
+GET {{base}}/books
+
+### Filter by author (query string)
+GET {{base}}/books?author=martin
+
+### One book (URL param)
+GET {{base}}/books/1
+
+### Missing book -> 404
+GET {{base}}/books/999
+
+### Unknown route -> 404
+GET {{base}}/nope
+
+### Create without a token -> 401
+POST {{base}}/books
+Content-Type: application/json
+
+{ "title": "Refactoring", "author": "Martin Fowler" }
+
+### Create with invalid data -> 400 or 422
+POST {{base}}/books
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{ "title": "", "year": 5000 }
+
+### Create -> 201
+POST {{base}}/books
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{ "title": "Refactoring", "author": "Martin Fowler", "year": 1999 }
+
+### Update -> 200
+PUT {{base}}/books/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+Accept: application/json
+
+{ "title": "Clean Code (2nd ed.)", "author": "Robert C. Martin", "year": 2025 }
+
+### Delete -> 204
+DELETE {{base}}/books/2
+Authorization: Bearer {{token}}
