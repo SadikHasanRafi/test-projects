@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+/* A few reusable classes, built from Tailwind utilities with @apply.
+   Everything else is written as utility classes directly in the markup. */
+@layer components {
+  .btn {
+    @apply cursor-pointer rounded-md bg-slate-800 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-600 disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .input {
+    @apply rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm outline-none focus:border-slate-800;
+  }
+}

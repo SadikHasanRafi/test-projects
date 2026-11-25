@@ -1,0 +1,16 @@
+export const lessons = [
+  { path: '/template', title: '1. JSX syntax' },
+  { path: '/state', title: '2. State & events' },
+  { path: '/conditional', title: '3. Conditional rendering' },
+  { path: '/list', title: '4. Lists' },
+  { path: '/form', title: '5. Forms' },
+  { path: '/computed', title: '6. Derived values' },
+  { path: '/effect', title: '7. Effects & lifecycle' },
+  { path: '/components', title: '8. Components' },
+  { path: '/ref', title: '9. DOM refs' },
+  { path: '/composable', title: '10. Custom hooks' },
+  { path: '/store', title: '11. Shared state' },
+  { path: '/api', title: '12. API calls' },
+  { path: '/routing', title: '13. Routing' },
+  { path: '/todo', title: '14. Todo mini app' },
+]
